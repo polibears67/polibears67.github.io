@@ -13,6 +13,402 @@
     <p>a wildly inaccurate but cool space simulator</p>
     
     <script type="text/processing">
+
+      int totalStars = int(random(7000, 10000));
+      Star[] stars = new Star[totalStars];
+
+      int totalFallingStars = int(random(1,10));
+      FallingStar[] fallingStars = new FallingStar[totalFallingStars];
+
+      int totalPlanets = int(random(10,20));
+      Planet[] planets = new Planet[totalPlanets];
+
+      boolean gravityMouse = false;
+      int norm = 6;
+
+      public void setup() {
+        frameRate(60);
+        size(1200,800,P3D);   //size of the window
+        background(0);  //creates a black background
+        stroke(0);
+        strokeWeight(0);
+
+        for(int i = 0; i < stars.length; i++) {
+          stars[i] = new Star();
+
+        }
+        for(int i = 0; i < fallingStars.length; i++) {
+          fallingStars[i] = new FallingStar();
+
+        }
+        for(int i = 0; i < planets.length; i++) {
+          planets[i] = new Planet();
+
+        }
+      }
+
+      /////////-/////////-/////////-/////////-/////////-/////////-/////////-/////////-/////////-/////////-
+
+      void draw(){
+        fill(0,0,0,255);
+        rect(0, 0, width, height);
+        /////////-/////////-/////////-/////////-/////////-/////////-/////////-/////////-
+
+
+
+        /////////-/////////-/////////-/////////-/////////-/////////-/////////-/////////- stars
+        for(int i = 0; i < stars.length; i++) {
+          /*
+          if (keyPressed) {
+            if (keyCode == LEFT) {
+              if (stars[i].r > 4) {stars[i].xVel += norm+1;}
+              if (stars[i].r < 3) {stars[i].xVel += norm-1 ;}
+              if (stars[i].r >= 3 && stars[i].r <= 4) {stars[i].xVel += norm;}
+            }
+            if (keyCode == RIGHT) {
+              if (stars[i].r > 4) {stars[i].xVel -= norm+1;}
+              if (stars[i].r < 3) {stars[i].xVel -= norm-1;}
+              if (stars[i].r >= 3 && stars[i].r <= 4) {stars[i].xVel -= norm;}
+            }
+            if (keyCode == DOWN) {
+              if (stars[i].r > 4) {stars[i].yVel -= norm+1;}
+              if (stars[i].r < 3) {stars[i].yVel -= norm-1;}
+              if (stars[i].r >= 3 && stars[i].r <= 4) {stars[i].yVel -= norm;}
+            }
+            if (keyCode == UP) {
+              if (stars[i].r > 4) {stars[i].yVel += norm+1;}
+              if (stars[i].r < 3) {stars[i].yVel += norm-1;}
+              if (stars[i].r >= 3 && stars[i].r <= 4) {stars[i].yVel += norm;}
+            }
+
+          }
+          */
+
+          if (keyPressed) {
+            if (keyCode == LEFT) {
+              stars[i].xVel += norm;
+            }
+            if (keyCode == RIGHT) {
+              stars[i].xVel -= norm;
+            }
+            if (keyCode == DOWN) {
+              stars[i].yVel -= norm;
+            }
+            if (keyCode == UP) {
+              stars[i].yVel += norm;
+
+            }
+
+          }
+
+
+           //println(gravityMouse);
+
+          stars[i].show();
+          stars[i].update();
+          //stars[i].opacity = random(150,255);
+
+          stars[i].xVel = 0;
+          stars[i].yVel = 0;
+
+
+
+          if (gravityMouse){
+            if(abs(mouseX-stars[i].x)<200 && abs(mouseY-stars[i].y)<200){
+                stars[i].x += ((mouseX-stars[i].x)/100);
+                stars[i].y += ((mouseY-stars[i].y)/100);
+
+            }
+          }
+
+
+        /*
+          //println(mouseX);
+
+          if(abs(mouseX-stars[i].x)<100 && abs(mouseY-stars[i].y)<100){
+            if(abs(mouseX-stars[i].x)>10){
+              stars[i].x += 100/((mouseX-stars[i].x));
+            }
+            if(abs(mouseY-stars[i].y)>10){
+              stars[i].y += 100/((mouseY-stars[i].y));
+            }
+          }
+          */    
+        }
+
+
+        /////////-/////////-/////////-/////////-/////////-/////////-/////////-/////////- fallingStars
+        for (int i = 0; i < fallingStars.length; i++){
+          if (keyPressed) {
+            if (keyCode == LEFT) {
+              fallingStars[i].xVel += norm;
+            }
+            if (keyCode == RIGHT) {
+              fallingStars[i].xVel -= norm;
+            }
+            if (keyCode == DOWN) {
+              fallingStars[i].yVel -= norm;
+            }
+            if (keyCode == UP) {
+              fallingStars[i].yVel += norm;
+            }
+
+          }
+
+
+          fallingStars[i].show();
+          fallingStars[i].update();
+          fallingStars[i].xVel=fallingStars[i].oldxVel;
+          fallingStars[i].yVel=fallingStars[i].oldyVel;
+
+        }
+
+        /////////-/////////-/////////-/////////-/////////-/////////-/////////-/////////- 
+
+
+        for(int i = 0; i < planets.length; i++) {
+
+          if (keyPressed) {
+            if (keyCode == LEFT) {
+              planets[i].xVel += norm;
+            }
+            if (keyCode == RIGHT) {
+              planets[i].xVel -= norm;
+            }
+            if (keyCode == DOWN) {
+              planets[i].yVel -= norm;
+            }
+            if (keyCode == UP) {
+              planets[i].yVel += norm;
+            }
+
+          }
+
+
+
+          planets[i].show();
+          planets[i].update();
+
+          planets[i].xVel = 0;
+          planets[i].yVel = 0;
+
+
+        }
+
+
+      }
+
+      void keyReleased(){
+        if (keyCode=='G'){
+          gravityMouse = !gravityMouse;
+
+        }
+      }
+
+      public class FallingStar {
+        float x;
+        float y;
+        float r;
+        float xVel = 0;
+        float yVel = 0;
+        float oldxVel=0;
+        float oldyVel=0;
+
+        float red, green, blue;
+        float opacity;
+
+
+        public FallingStar(){
+          fStarSetup();
+        }
+        public void fStarSetup(){
+          xVel = random(-15,15);
+          yVel = random(-15,15);
+          while(abs(xVel)<2 && abs(yVel)<2){
+            xVel = random(-15,15);
+            yVel = random(-15,15);
+
+
+          }
+          oldxVel=xVel;
+          oldyVel=yVel;
+
+          if (int(random(0,2))==1){
+            if (xVel > 0) {
+              x = -50;
+              y = random(0,height);
+            }
+            if (xVel < 0) {
+              x = width + 50;
+              y = random(0,height);
+            }
+          } else {
+            if (yVel > 0) {
+              y = -50;
+              x = random(0,width);
+            }
+            if (yVel < 0) {
+              y = height + 50;
+              x = random(0,width);
+            }
+          }
+
+          r = random(2, 10);
+          red = random(100, 255);
+          green = random(100, 255);
+          blue = random(100, 255);
+          opacity = random(255, 255);
+        }
+
+        public void show() {
+          if(x<1620 && x>-1620 && y<820 && y>-820){
+            fill(0,0,0,200);
+            ellipse(x, y, r, r);
+            fill(red, green, blue, opacity);
+            ellipse(x, y, r, r);
+          }
+        }
+
+        public void update() {
+          x += xVel;
+          y += yVel;
+          if (x > width*3 || x < -width*3 || y > height*3 || y < -height*3) {
+            fStarSetup();
+          }
+
+
+        }
+
+      }
+
+      public class Planet{
+
+        float x;
+        float y;
+        float z;
+        float r;
+        float xVel = 0;
+        float yVel = 0;
+        float red, green, blue;
+        float opacity;
+
+        public Planet() {
+          x = random(0-width*3, width*3);
+          y = random(0-height*3, height*3);
+          z = random(-300, 300);
+          r = random(100, 500);
+
+          translate(0,0,0);
+
+
+          red = random(100, 255);
+          green = random(100, 255);
+          blue = random(100, 255);
+          //opacity = random(255, 255);
+
+        }
+        public void show(){
+
+          translate(0,0,z);
+
+          fill(red, green, blue);
+          if(x<1600+r && x>-1600-r && y<800+r && y>-800-r){
+            ellipse(x, y, r, r);
+          }
+
+          translate(0,0,-z);
+
+
+        }
+
+        public void update() {
+          x += xVel;
+          y += yVel;
+          //z += 1;
+        }
+      }
+
+      public class Star {
+        float x;
+        float y;
+        float r;
+        float z;
+        float xVel = 0;
+        float yVel = 0;
+        float red, green, blue;
+        float opacity;
+        boolean isBright = false;
+
+
+        public Star() {
+          x = random(0-width*3, width*3);
+          y = random(0-height*3, height*3);
+          z = random(-300, 300);
+          r = random(1, 5);
+          //if(int(random(1,30))==30){
+          //  r = random(20, 50);
+          //  println("bigstar");
+          //}
+
+          translate(0,0,0);
+
+          red = random(100, 255);
+          green = random(100, 255);
+          blue = random(100, 255);
+          opacity = random(0, 255);
+        }
+
+        public void show() {
+
+          //float zz = random(0,15);
+          translate(0,0,z);
+
+
+          fill(red, green, blue, opacity);
+          if(x<1600 && x>-1600 && y<800 && y>-800){
+            ellipse(x, y, r, r);
+          }
+
+          translate(0,0,-z);
+          //println(z);
+
+
+        }
+
+        public void update() {
+          //xVel = random(-1, 1);
+          //yVel = random(-1, 1);
+          x += xVel;
+          y += yVel;   
+
+          /*
+          if (x > width) {
+             x = 0;
+          }
+          if (x < 0) {
+             x = width;
+          }
+          if (y > height) {
+             y = 0;
+          }
+          if (y < 0) {
+             y = height;
+          }
+          */
+          if(x<1600 && x>-1600 && y<800 && y>-800){
+            if (opacity >= 255) {isBright = true;}
+            if (opacity <= 30) {isBright = false;}
+
+            if (isBright == false) {opacity += random(-1,7);} 
+            else {opacity -= random(-1,7);}
+
+          }
+          //System.out.println(opacity);
+
+
+
+        }
+      }
     </script>
     <canvas id="sketch" style="border: 1px solid black;"></canvas>
     
