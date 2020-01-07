@@ -14,12 +14,21 @@
     <p>randomly generated. It's extremely slow and the graphics seem a big broken on the webpage.</p>
     <p>The shooting stars and twinkling effect also seem to be missing?</p>
     <script type="text/processing">
+    
+    
+    
+    
+    
+    
+    
+      public int screenx = 0;
+      public int screeny = 0;
 
-      
-      int totalStars = int(random(700, 1000));
+
+      int totalStars = int(random(7000, 10000));
       Star[] stars = new Star[totalStars];
 
-      int totalFallingStars = int(random(1,10));
+      int totalFallingStars = int(random(20,40));
       FallingStar[] fallingStars = new FallingStar[totalFallingStars];
 
       int totalPlanets = int(random(10,20));
@@ -29,7 +38,7 @@
       int norm = 6;
 
       public void setup() {
-        frameRate(100);
+        frameRate(60);
         size(1200,800,P3D);   //size of the window
         background(0);  //creates a black background
         stroke(0);
@@ -55,8 +64,24 @@
         fill(0,0,0,255);
         rect(0, 0, width, height);
         /////////-/////////-/////////-/////////-/////////-/////////-/////////-/////////-
+        println(screenx);
+        println(screeny);
+        if (keyPressed) {
+          if (keyCode == LEFT) {
+            screenx-=norm;
+          }
+          if (keyCode == RIGHT) {
+            screenx+=norm;
+          }
+          if (keyCode == DOWN) {
+            screeny+=norm;
 
+          }
+          if (keyCode == UP) {
+            screeny-=norm;
 
+          }
+        }   
 
         /////////-/////////-/////////-/////////-/////////-/////////-/////////-/////////- stars
         for(int i = 0; i < stars.length; i++) {
@@ -168,20 +193,29 @@
         /////////-/////////-/////////-/////////-/////////-/////////-/////////-/////////- 
 
 
+
+
+
+
         for(int i = 0; i < planets.length; i++) {
 
           if (keyPressed) {
             if (keyCode == LEFT) {
               planets[i].xVel += norm;
+
             }
             if (keyCode == RIGHT) {
               planets[i].xVel -= norm;
+
+
             }
             if (keyCode == DOWN) {
               planets[i].yVel -= norm;
+
             }
             if (keyCode == UP) {
               planets[i].yVel += norm;
+
             }
 
           }
@@ -237,21 +271,21 @@
 
           if (int(random(0,2))==1){
             if (xVel > 0) {
-              x = -50;
-              y = random(0,height);
+              x = -width*3-screenx;
+              y = random(-height*3,height*3);
             }
             if (xVel < 0) {
-              x = width + 50;
-              y = random(0,height);
+              x = width*3-screenx;
+              y = random(-height*3,height*3);
             }
           } else {
             if (yVel > 0) {
-              y = -50;
-              x = random(0,width);
+              y = -height*3-screeny;
+              x = random(-width*3,width*3);
             }
             if (yVel < 0) {
-              y = height + 50;
-              x = random(0,width);
+              y = (height*3)-screeny;
+              x = random(-width*3,width*3);
             }
           }
 
@@ -274,7 +308,7 @@
         public void update() {
           x += xVel;
           y += yVel;
-          if (x > width*3 || x < -width*3 || y > height*3 || y < -height*3) {
+          if (x > width*3-screenx || x < -width*3-screenx || y > height*3-screeny || y < -height*3-screeny) {
             fStarSetup();
           }
 
@@ -326,6 +360,7 @@
         public void update() {
           x += xVel;
           y += yVel;
+          //z += 1;
         }
       }
 
@@ -346,10 +381,10 @@
           y = random(0-height*3, height*3);
           z = random(-300, 300);
           r = random(1, 5);
-          //if(int(random(1,30))==30){
-          //  r = random(20, 50);
-          //  println("bigstar");
-          //}
+          if(int(random(1,100))==1){
+            r = random(5, 20);
+            //println("bigstar");
+          }
 
           translate(0,0,0);
 
@@ -396,8 +431,6 @@
              y = height;
           }
           */
-          
-          
           if(x<1600 && x>-1600 && y<800 && y>-800){
             if (opacity >= 255) {isBright = true;}
             if (opacity <= 30) {isBright = false;}
@@ -408,10 +441,37 @@
           }
           //System.out.println(opacity);
 
-          
+
 
         }
       }
+
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
     </script>
     <canvas id="sketch" style="border: 1px solid black;"></canvas>
     
