@@ -299,7 +299,7 @@
           z = random(-300, 300);
           r = random(100, 500);
 
-          translate(0,0,0);
+          //translate(0,0,0);
 
 
           red = random(100, 255);
@@ -310,14 +310,14 @@
         }
         public void show(){
 
-          translate(0,0,z);
+          //translate(0,0,z);
 
           fill(red, green, blue);
           if(x<1600+r && x>-1600-r && y<800+r && y>-800-r){
             ellipse(x, y, r, r);
           }
 
-          translate(0,0,-z);
+          //translate(0,0,-z);
 
 
         }
@@ -325,7 +325,6 @@
         public void update() {
           x += xVel;
           y += yVel;
-          //z += 1;
         }
       }
 
@@ -351,7 +350,7 @@
           //  println("bigstar");
           //}
 
-          translate(0,0,0);
+          //translate(0,0,0);
 
           red = random(100, 255);
           green = random(100, 255);
@@ -362,7 +361,7 @@
         public void show() {
 
           //float zz = random(0,15);
-          translate(0,0,z);
+          //translate(0,0,z);
 
 
           fill(red, green, blue, opacity);
@@ -370,7 +369,7 @@
             ellipse(x, y, r, r);
           }
 
-          translate(0,0,-z);
+          //translate(0,0,-z);
           //println(z);
 
 
