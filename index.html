@@ -4,7 +4,7 @@
 
   <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Processing :((</title>
+      <title>Processing :(</title>
       <script type="text/javascript" src="js/processing.js"></script>
   </head>
   
@@ -25,10 +25,10 @@
       public int screeny = 0;
 
 
-      int totalStars = int(random(700, 1000));
+      int totalStars = int(random(7000, 10000));
       Star[] stars = new Star[totalStars];
 
-      int totalFallingStars = int(random(80,80));
+      int totalFallingStars = int(random(20,40));
       FallingStar[] fallingStars = new FallingStar[totalFallingStars];
 
       int totalPlanets = int(random(10,20));
@@ -289,7 +289,7 @@
             }
           }
 
-          r = random(20, 100);
+          r = random(2, 10);
           red = random(100, 255);
           green = random(100, 255);
           blue = random(100, 255);
